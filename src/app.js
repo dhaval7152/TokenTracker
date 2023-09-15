@@ -23,7 +23,10 @@ app.get("/getToken/:account", async (req, res) => {
   });
   /* eslint-disable */
   const json = await response.json();
-  res.send(json.result[0]);
+  if(json.result[0].from!=account){
+    res.send(json);
+  }
+
 
 
 });
