@@ -29,9 +29,10 @@ app.get("/getToken/:account", async (req, res) => {
   for (let i = 0; i < result.length; i++) {
     if (json.result[i].from != account) {
       resp = json.result[i];
+      break;
     }
   }
-  res.send(res);
+  res.send(resp);
 });
 
 app.listen(port, () => {
