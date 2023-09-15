@@ -1,11 +1,24 @@
 const ethers = require("ethers");
 require("dotenv").config();
 
-const provider = new ethers.JsonRpcProvider(process.env.sepolia_network);
-const wallet = new ethers.Wallet(process.env.admin_private_key, provider);
-(async () => {
-  const block = await provider.getBlock("latest");
-  console.log(block);
-})();
+const provider = new ethers.providers.JsonRpcProvider(
+  process.env.sepolia_network
+);
+const listenToTransactions = async (_address) => {
+  const block = await provider.getBlock(4293509);
+  const result = await provider.getBlockWithTransactions(block.hash);
+  const allTransactions = result.transactions;
+  for (let i = 0; i < allTransactions.length; i++) {
+    if (
+      allTransactions[i].from === "0x0fadb24c9a7ac088c329c4fa87730d3b2df2f525"
+    ) {
+      console.log(allTransactions[i]);
+      console.log("first");
+    }
+    console.log("in else");
+  }
+};
 
-fetch();
+listenToTransactions("0x0fadb24c9a7ac088c329c4fa87730d3b2df2f525");
+
+// module.exports = { listenToTransactions };
