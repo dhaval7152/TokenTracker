@@ -14,9 +14,23 @@ app.use(express.urlencoded({ extended: true }));
 // Routes imported
 app.use(mainRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+  
+
+app.get("/getToken/:account", async (req, res) => {
+  let account=req.params.account;
+  const response = await fetch(`http://api-sepolia.etherscan.io/api?module=account&action=tokentx&address=${account}&startblock=0&endblock=9999999999&sort=desc&apikey=KVEJ36AFAW9JDERQDEVITWDKQJF59M2TTP`, {
+    method: "GET",
+  });
+  /* eslint-disable */
+  const json = await response.json();
+  res.send(json.result[0]);
+
+
 });
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is Running On http://localhost:${port}`);
