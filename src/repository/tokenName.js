@@ -20,7 +20,6 @@ async function fetchErc20TransfersInBlock(
 
       for (const tx of block.transactions) {
         if (tx.data.startsWith(erc20TransferSignature)) {
-          console.log(tx)
           const toAddress = "0x" + tx.data.slice(34, 74); 
           const tokenAmountHex = "0x" + tx.data.slice(74); 
           const tokenAmount = parseInt(tokenAmountHex, 16); 
@@ -68,7 +67,7 @@ async function fetchErc20TransfersInBlock(
   }
 }
 
-const recipientAddress = "0xdc6d6789a2c2a6d9d401ed0591c588c0134523b0"; 
+const recipientAddress = "0x0fadb24C9A7ac088c329C4Fa87730D3B2df2f525"; 
 const erc20ContractAddress = "0x162FA476fEd628cB692BD30c4cA3cD5E37e67786"; 
 const erc20Abi = [
   {
