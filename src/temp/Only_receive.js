@@ -2,11 +2,10 @@ const ethers = require("ethers");
 const { erc20Abi } = require("../helpers");
 require("dotenv").config();
 
-const transferSelector = "0xa9059cbb";
+const erc20TransferSignature = "0xa9059cbb";
 const provider = new ethers.providers.JsonRpcProvider(
   process.env.sepolia_network
 );
-let filter;
 
 const _fetchTransactionDetail = async (recipientAddress) => {
   let blockNumber = await provider.getBlockNumber();
@@ -23,7 +22,7 @@ const _fetchTransactionDetail = async (recipientAddress) => {
         const tokenAddress = tx.to !== null ? tx.to : "";
         if (
           toAddress.toLowerCase() === recipientAddress.toLowerCase() &&
-          tx.data.startsWith(transferSelector)
+          tx.data.startsWith(erc20TransferSignature)
         ) {
           const contract = new ethers.Contract(
             tokenAddress,
@@ -42,7 +41,7 @@ const _fetchTransactionDetail = async (recipientAddress) => {
 };
 
 const FetchTransactionDetail = async (recipientAddress) => {
-  filter = provider.on("block", async (blockNumber) => {
+  provider.on("block", async (blockNumber) => {
     console.log(blockNumber);
     const result = await _fetchTransactionDetail(recipientAddress);
     if (result.length > 0) {
@@ -55,10 +54,6 @@ const FetchTransactionDetail = async (recipientAddress) => {
   });
 };
 
-const stoplistening = async () => {
-  filter.removeListener();
-};
-
 // FetchTransactionDetail("0x0fadb24c9a7ac088c329c4fa87730d3b2df2f525");
 
-module.exports = { FetchTransactionDetail, stoplistening };
+module.exports = { FetchTransactionDetail };
