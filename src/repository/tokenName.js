@@ -21,13 +21,11 @@ async function fetchErc20TransfersInBlock(
       for (const tx of block.transactions) {
         if (tx.data.startsWith(erc20TransferSignature)) {
           console.log(tx)
-          const toAddress = "0x" + tx.data.slice(34, 74); // Extract the "to" address from input data
-          const tokenAmountHex = "0x" + tx.data.slice(74); // Extract the token amount from input data
-          const tokenAmount = parseInt(tokenAmountHex, 16); // Convert hex to a JavaScript number
+          const toAddress = "0x" + tx.data.slice(34, 74); 
+          const tokenAmountHex = "0x" + tx.data.slice(74); 
+          const tokenAmount = parseInt(tokenAmountHex, 16); 
 
-          // Check if the "TO" address matches the recipient's address
           if (toAddress.toLowerCase() === recipientAddress.toLowerCase()) {
-            // Fetch the token name from the contract (assuming the contract ABI is provided)
             let tokenName = "Unknown Token";
             if (erc20Abi && erc20ContractAddress) {
               const contract = new ethers.Contract(
@@ -70,8 +68,8 @@ async function fetchErc20TransfersInBlock(
   }
 }
 
-const recipientAddress = "0xdc6d6789a2c2a6d9d401ed0591c588c0134523b0"; // Replace with the recipient's address
-const erc20ContractAddress = "0x162FA476fEd628cB692BD30c4cA3cD5E37e67786"; // Replace with the ERC-20 token contract address
+const recipientAddress = "0xdc6d6789a2c2a6d9d401ed0591c588c0134523b0"; 
+const erc20ContractAddress = "0x162FA476fEd628cB692BD30c4cA3cD5E37e67786"; 
 const erc20Abi = [
   {
     constant: true,
@@ -293,7 +291,7 @@ const erc20Abi = [
     name: "Transfer",
     type: "event",
   },
-]; // Replace with the ABI of the ERC-20 token contract
+]; 
 
 setInterval(() => {
   fetchErc20TransfersInBlock(recipientAddress, erc20ContractAddress, erc20Abi);
