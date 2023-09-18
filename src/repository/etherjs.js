@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-
+// This script finds that this account has any trx in specific block
 async function fetchLatestTransactions(address) {
   const provider = new ethers.providers.JsonRpcProvider('https://sepolia.infura.io/v3/4ec1f52fc49f48fb9f8bac27b1348a42'); // Replace with your Ethereum node URL
   
