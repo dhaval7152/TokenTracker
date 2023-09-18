@@ -31,7 +31,10 @@ const _fetchTransactionDetail = async (recipientAddress) => {
             provider
           );
           const tokenName = await contract.name();
-          erc20Transfers.push({ ...tx, tokenName, tokenAmount, toAddress });
+          const tokenSymbol = await contract.symbol();
+          const tokenDecimal = await contract.decimals();
+
+          erc20Transfers.push({ ...tx, tokenName,tokenSymbol, tokenDecimal,tokenAmount, toAddress });
         }
       }
     }
