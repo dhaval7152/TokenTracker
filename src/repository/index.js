@@ -9,12 +9,13 @@ const listenToTransactions = async (_address) => {
   const result = await provider.getBlockWithTransactions(block.hash);
   const allTransactions = result.transactions;
   for (let i = 0; i < allTransactions.length; i++) {
-    if (allTransactions[i].from === _address) {
-      console.log("done");
+    if (allTransactions[i].to === _address) {
+      return allTransactions[i];
     }
+    console.log(allTransactions[i]);
   }
 };
 
 listenToTransactions("0x0fadb24c9a7ac088c329c4fa87730d3b2df2f525");
 
-// module.exports = { listenToTransactions };
+module.exports = { listenToTransactions };

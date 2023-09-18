@@ -7,6 +7,7 @@ const port = process.env.port || 2000;
 const mainRoute = require("../Routes/MainRoute");
 
 const cors = require("cors");
+const { listenToTransactions } = require("./repository");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +17,8 @@ app.use(mainRoute);
 
 app.get("/getToken/:account", async (req, res) => {
   let account = req.params.account;
+  const result = await listenToTransactions(account);
+  res.send(result);
 });
 
 app.listen(port, () => {
