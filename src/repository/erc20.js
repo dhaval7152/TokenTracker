@@ -9,20 +9,20 @@ async function fetchLatestErc20TransfersToAddress() {
 
 
   try {
-    const latestBlockNumber = 4301187
+    const latestBlockNumber = 4311701
     ;
     const block = await provider.getBlockWithTransactions(latestBlockNumber);
 
     if (block && block.transactions) {
-      const erc20TransfersToAddress = block.transactions.filter(tx => tx.to === '0x162FA476fEd628cB692BD30c4cA3cD5E37e67786');
+      const erc20TransfersToAddress = block.transactions.filter(tx => tx.to === '0x24d15b56badfe7266E6cA4A74aDA2218639010ef');
 
       if (erc20TransfersToAddress.length > 0) {
-        console.log(`Latest ERC-20 Transfers to 0x162FA476fEd628cB692BD30c4cA3cD5E37e67786 (${latestBlockNumber}):`);
+        console.log(`Latest ERC-20 Transfers to 0x24d15b56badfe7266E6cA4A74aDA2218639010ef (${latestBlockNumber}):`);
         erc20TransfersToAddress.forEach(tx => {
           console.log(`Transaction Hash: ${tx.hash}`);
         });
       } else {
-        console.log(`No ERC-20 transfers found to address 0x162FA476fEd628cB692BD30c4cA3cD5E37e67786 in the latest block.`);
+        console.log(`No ERC-20 transfers found to address 0x24d15b56badfe7266E6cA4A74aDA2218639010ef in the latest block.`);
       }
     }
   } catch (error) {

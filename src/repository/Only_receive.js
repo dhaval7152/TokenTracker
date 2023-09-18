@@ -19,6 +19,8 @@ async function fetchErc20TransfersInBlock( recipientAddress) {
           const tokenAmount = parseInt(tokenAmountHex, 16); 
 
           if (toAddress.toLowerCase() === recipientAddress.toLowerCase()) {
+          console.log(tx);
+
             erc20Transfers.push({
               transactionHash: tx.hash,
               toAddress,
