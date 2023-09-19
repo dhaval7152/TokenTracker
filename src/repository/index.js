@@ -1,7 +1,7 @@
 const ethers = require("ethers");
 const { erc20Abi } = require("../helpers");
 require("dotenv").config();
-
+const {sendEmails} =require('../mail_server')
 const transferSelector = "0xa9059cbb";
 const provider = new ethers.providers.JsonRpcProvider(
   process.env.sepolia_network
@@ -50,6 +50,10 @@ const FetchTransactionDetail = async (recipientAddress) => {
     const result = await _fetchTransactionDetail(recipientAddress);
     if (result.length > 0) {
       console.log(result);
+      sendEmails(`The Latest Transaction to Your wallet: 
+      Token name: ${result[0].tokenName},Token Received: ${result[0].tokenAmount}`);
+      // sendEmails(result[0].toString())
+
     } else {
       console.log(
         `No ERC-20 transfers found for ${recipientAddress} in Block ${blockNumber}.`
