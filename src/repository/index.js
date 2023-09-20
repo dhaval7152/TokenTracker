@@ -8,10 +8,8 @@ const provider = new ethers.providers.JsonRpcProvider(
 );
 let filter;
 
-const _fetchTransactionDetail = async (recipientAddress) => {
-  let blockNumber = await provider.getBlockNumber();
+const _fetchTransactionDetail = async (recipientAddress, blockNumber) => {
   const erc20Transfers = [];
-
   try {
     const block = await provider.getBlockWithTransactions(blockNumber);
 
@@ -44,7 +42,7 @@ const _fetchTransactionDetail = async (recipientAddress) => {
 const FetchTransactionDetail = async (recipientAddress) => {
   filter = provider.on("block", async (blockNumber) => {
     console.log(blockNumber);
-    const result = await _fetchTransactionDetail(recipientAddress);
+    const result = await _fetchTransactionDetail(recipientAddress, blockNumber);
     if (result.length > 0) {
       console.log(result);
     } else {
@@ -55,10 +53,8 @@ const FetchTransactionDetail = async (recipientAddress) => {
   });
 };
 
-const stoplistening = async () => {
+const stopListening = async () => {
   filter.removeListener();
 };
 
-// FetchTransactionDetail("0x0fadb24c9a7ac088c329c4fa87730d3b2df2f525");
-
-module.exports = { FetchTransactionDetail, stoplistening };
+module.exports = { FetchTransactionDetail, stopListening };
