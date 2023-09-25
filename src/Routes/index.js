@@ -5,5 +5,5 @@ const mainController = require("../Controllers");
 
 router.get("/hello", mainController.hello);
 router.get("/getToken/:account", mainController.getTransaction);
-router.get("/cancell/listener", mainController.stopListening);
+router.get("/cancell/listener/:chainid", mainController.stopListening);
 module.exports = router;

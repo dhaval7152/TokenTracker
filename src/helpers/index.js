@@ -1,3 +1,4 @@
+require("dotenv").config();
 const erc20Abi = [
   {
     constant: true,
@@ -221,4 +222,6 @@ const erc20Abi = [
   },
 ];
 
-module.exports = { erc20Abi };
+const Networks = [process.env.sepolia_network, process.env.bsc_network];
+
+module.exports = { erc20Abi, Networks };

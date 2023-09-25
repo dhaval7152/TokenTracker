@@ -19,6 +19,7 @@ exports.getTransaction = async (req, res) => {
 };
 
 exports.stopListening = async (req, res) => {
-  stopListening();
+  let chainId = req.params.chainid;
+  stopListening(chainId);
   res.send("Stoped listening...");
 };

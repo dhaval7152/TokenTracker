@@ -1,15 +1,21 @@
 const ethers = require("ethers");
-const { erc20Abi } = require("../helpers");
+const { erc20Abi, Networks } = require("../helpers");
 require("dotenv").config();
 const { sendEmails } = require("../mail_server");
 const transferSelector = "0xa9059cbb";
-const provider = new ethers.providers.JsonRpcProvider(
-  // process.env.sepolia_network
-  process.env.bsc_network
-);
-let filter;
 
-const _fetchTransactionDetail = async (recipientAddress, blockNumber) => {
+const providers = [];
+let filters = [];
+
+Networks.map(async (val, index) => {
+  providers[index] = new ethers.providers.JsonRpcProvider(val);
+});
+
+const _fetchTransactionDetail = async (
+  recipientAddress,
+  blockNumber,
+  provider
+) => {
   const erc20Transfers = [];
   try {
     const block = await provider.getBlockWithTransactions(blockNumber);
@@ -51,24 +57,31 @@ const _fetchTransactionDetail = async (recipientAddress, blockNumber) => {
 };
 
 const FetchTransactionDetail = async (recipientAddress) => {
-  filter = provider.on("block", async (blockNumber) => {
-    console.log(blockNumber);
-    const result = await _fetchTransactionDetail(recipientAddress, blockNumber);
-    if (result.length > 0) {
-      console.log(result);
-      sendEmails(`The Latest Transaction to Your wallet: 
-      Token name: ${result[0].tokenName},Token Received: ${result[0].tokenAmount}`);
-      // sendEmails(result[0].toString())
-    } else {
-      console.log(
-        `No ERC-20 transfers found for ${recipientAddress} in Block ${blockNumber}.`
+  providers.forEach((provider, index) => {
+    filters[index] = provider.on("block", async (blockNumber) => {
+      const result = await _fetchTransactionDetail(
+        recipientAddress,
+        blockNumber,
+        provider
       );
-    }
+      if (result.length > 0) {
+        console.log(result);
+        // sendEmails(`The Latest Transaction to Your wallet:
+        // Token name: ${result[0].tokenName},Token Received: ${result[0].tokenAmount}`);
+      } else {
+        return;
+      }
+    });
   });
 };
 
-const stopListening = async () => {
-  filter.removeListener();
+const stopListening = async (_chainId) => {
+  providers.forEach(async (provider, index) => {
+    const { chainId } = await provider.getNetwork();
+    if (_chainId === chainId.toString()) {
+      filters[index].removeListener();
+    }
+  });
 };
 
 module.exports = { FetchTransactionDetail, stopListening };
