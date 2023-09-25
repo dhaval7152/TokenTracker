@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { FetchTransactionDetail } = require("../repository/index");
+const { FetchTransactionDetail,_callFetchTransactionDetail } = require("../repository/index");
 
 exports.hello = async (req, res) => {
   try {
@@ -11,6 +11,7 @@ exports.hello = async (req, res) => {
 
 exports.getTransaction = async (req, res) => {
   let account = req.params.account;
-  FetchTransactionDetail(account);
+  _callFetchTransactionDetail(account);
+  // FetchTransactionDetail(account);
   res.send("listening to block");
 };
