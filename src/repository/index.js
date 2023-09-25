@@ -51,8 +51,8 @@ const FetchTransactionDetail = async (recipientAddress) => {
     const result = await _fetchTransactionDetail(recipientAddress);
     if (result.length > 0) {
       console.log(result);
-      sendEmails(`The Latest Transaction to Your wallet: 
-      Token name: ${result[0].tokenName},Token Received: ${result[0].tokenAmount}`);
+      // sendEmails(`The Latest Transaction to Your wallet: 
+      // Token name: ${result[0].tokenName},Token Received: ${result[0].tokenAmount}`);
       // sendEmails(result[0].toString())
 
     } else {
