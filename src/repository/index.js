@@ -4,7 +4,8 @@ require("dotenv").config();
 const {sendEmails} =require('../mail_server')
 const transferSelector = "0xa9059cbb";
 const provider = new ethers.providers.JsonRpcProvider(
-  process.env.sepolia_network
+  // process.env.sepolia_network
+  process.env.bsc_network
 );
 let filter;
 
