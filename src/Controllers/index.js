@@ -24,5 +24,3 @@ exports.stopListening = async (req, res) => {
   res.send("Stoped listening...");
 };
 
-
-// 
