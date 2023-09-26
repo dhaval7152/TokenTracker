@@ -221,4 +221,7 @@ const erc20Abi = [
   },
 ];
 
+const Networks = [process.env.sepolia_network, process.env.bsc_network,process.env.etherum_Mainnet];
+// demo check
+module.exports = { erc20Abi, Networks };
 module.exports = { erc20Abi };
