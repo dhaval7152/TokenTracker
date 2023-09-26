@@ -85,3 +85,4 @@ const stopListening = async (_chainId) => {
 };
 
 module.exports = { FetchTransactionDetail, stopListening };
+// 
