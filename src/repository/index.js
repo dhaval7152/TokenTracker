@@ -15,10 +15,13 @@ const _fetchTransactionDetail = async (
   recipientAddress,
   blockNumber,
   provider
-) => {
+  ) => {
   const erc20Transfers = [];
   try {
     const block = await provider.getBlockWithTransactions(blockNumber);
+    const { chainId } = await provider.getNetwork();
+    console.log(`${blockNumber} of  ${chainId} `);
+    console.log(blockNumber);
 
     if (block && block.transactions) {
       for (const tx of block.transactions) {
@@ -56,7 +59,7 @@ const _fetchTransactionDetail = async (
   return erc20Transfers;
 };
 
-const FetchTransactionDetail = async (recipientAddress) => {
+const FetchTransactionDetail = async (recipientAddress) => {  
   providers.forEach((provider, index) => {
     filters[index] = provider.on("block", async (blockNumber) => {
       const result = await _fetchTransactionDetail(
